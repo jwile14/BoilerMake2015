@@ -11,4 +11,6 @@ public class ParseConstants {
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_LONGITUDE = "longitude";
 
+    public static final String KEY_PROFILE_PIC = "profile_picture";
+
 }

@@ -1,25 +1,20 @@
 package jwile14.com.github.boilermake2015;
 
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageView;
 
-/**
- * A fragment with a Google +1 button.
- * Activities that contain this fragment must implement the
- * {@link ProfileFragmnet.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ProfileFragmnet#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseUser;
+
 public class ProfileFragmnet extends Fragment {
-
-    private OnFragmentInteractionListener mListener;
 
     /**
      * Use this factory method to create a new instance of
@@ -44,6 +39,16 @@ public class ProfileFragmnet extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+
+        ParseFile image = ParseUser.getCurrentUser().getParseFile(ParseConstants.KEY_PROFILE_PIC);
+        image.getDataInBackground(new GetDataCallback() {
+            @Override
+            public void done(byte[] data, ParseException e) {
+                ImageView imageView = (ImageView) getActivity().findViewById(R.id.profilePictureImageView);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                imageView.setImageBitmap(bitmap);
+            }
+        });
     }
 
     @Override
@@ -55,33 +60,18 @@ public class ProfileFragmnet extends Fragment {
         return view;
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
+
+        ParseFile image = ParseUser.getCurrentUser().getParseFile(ParseConstants.KEY_PROFILE_PIC);
+        image.getDataInBackground(new GetDataCallback() {
+            @Override
+            public void done(byte[] data, ParseException e) {
+                ImageView imageView = (ImageView) getActivity().findViewById(R.id.profilePictureImageView);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                imageView.setImageBitmap(bitmap);
+            }
+        });
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
 }
