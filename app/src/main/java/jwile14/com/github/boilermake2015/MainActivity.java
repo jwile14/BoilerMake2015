@@ -2,6 +2,7 @@ package jwile14.com.github.boilermake2015;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,7 +10,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,12 +17,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -39,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+    private double mLatitude, mLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +52,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //ParseUser.logOutInBackground();
-
-        if (ParseUser.getCurrentUser() == null) {
-            navigateToLogin();
-        } else {
-            Log.i(TAG, "Logged in as: " + ParseUser.getCurrentUser().getUsername());
-        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
@@ -64,12 +64,44 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setTabTextColors(Color.parseColor("#800000"), Color.parseColor("#7f2c2c"));
         tabLayout.setupWithViewPager(viewPager);
 
+        buildGoogleApiClient();
+        mGoogleApiClient.connect();
+
         // Checks if you're logged in
         if (ParseUser.getCurrentUser() == null) {
             navigateToLogin();
         } else {
             ParseUser curUser = ParseUser.getCurrentUser();
         }
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if (mLastLocation != null) {
+            mLatitude = mLastLocation.getLatitude();
+            mLongitude = mLastLocation.getLongitude();
+            if (ParseUser.getCurrentUser() != null) {
+                ParseUser curUser = ParseUser.getCurrentUser();
+                curUser.put(ParseConstants.KEY_LATITUDE, mLatitude);
+                curUser.put(ParseConstants.KEY_LONGITUDE, mLongitude);
+                curUser.saveInBackground();
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
     }
 
     private void navigateToLogin() {
@@ -80,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -128,9 +161,17 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.logout) {
+            navigateToLogin();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 
 

@@ -1,11 +1,9 @@
 package jwile14.com.github.boilermake2015;
 
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -58,56 +56,13 @@ public class FibonacciFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fibonacci, container, false);
 
-        //Find the +1 button
-        mButton = (Button) view.findViewById(R.id.button);
-        mButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        // PRESSED
-                        v.setBackgroundColor(Color.parseColor("#e07474"));
-                        return true; // if you want to handle the touch event
-                    case MotionEvent.ACTION_UP:
-                        // RELEASED
-                        v.setBackgroundColor(Color.parseColor("#e0dede"));
-                        changeNumber();
-                        return true; // if you want to handle the touch event
-                }
-                return false;
-            }
-        });
-
-        // Find the textView
-        mTextView = (TextView) view.findViewById(R.id.numberField);
-
-
         return view;
     }
 
-    private void changeNumber() {
-        if(!mTextView.getText().toString().equals("Overflow :/")) {
-            int curNum = Integer.parseInt(mTextView.getText().toString());
-            if (curNum == 0) {
-                mTextView.setText("1");
-            } else {
-                old2 = old1;
-                old1 = Integer.parseInt(mTextView.getText().toString());
-                if (old1 + old2 < 0) {
-                    mTextView.setText("Overflow :/");
-                } else {
-                    mTextView.setText("" + (old1 + old2));
-                }
-            }
-        }
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-        old1 = 0;
-        old2 = 0;
-        mTextView.setText("0");
     }
 
     // TODO: Rename method, update argument and hook method into UI event

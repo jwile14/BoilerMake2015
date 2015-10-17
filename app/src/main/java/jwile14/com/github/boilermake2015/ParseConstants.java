@@ -8,4 +8,7 @@ public class ParseConstants {
     public static final String KEY_LAST_NAME = "lastName";
     public static final String KEY_USERNAME = "username";
 
+    public static final String KEY_LATITUDE = "latitude";
+    public static final String KEY_LONGITUDE = "longitude";
+
 }
