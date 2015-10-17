@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         exampleListFragment.setArguments(listBundle);
         adapter.addFrag(exampleListFragment, "Messages");
 
-        adapter.addFrag(new ProfileFragmnet(), "Profile");
+        adapter.addFrag(new ProfileFragment(), "Profile");
 
 
         viewPager.setAdapter(adapter);

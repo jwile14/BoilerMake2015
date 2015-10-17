@@ -13,11 +13,12 @@
         android:id="@+id/profileTitle"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="163dp"/>
+        android:layout_marginTop="80dp"/>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
         android:id="@+id/profilePictureImageView"
         android:layout_below="@id/profileTitle"
         android:layout_centerHorizontal="true"/>
