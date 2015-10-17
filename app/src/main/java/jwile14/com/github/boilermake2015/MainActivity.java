@@ -1,12 +1,16 @@
 package jwile14.com.github.boilermake2015;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,8 +24,13 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 
@@ -57,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(viewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -73,6 +82,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             navigateToLogin();
         } else {
             ParseUser curUser = ParseUser.getCurrentUser();
+
+            if(curUser.get(ParseConstants.KEY_PROFILE_PIC) == null) {
+                Drawable d = ContextCompat.getDrawable(this, R.drawable.generic_profile_pic);
+                Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] bitmapdata = stream.toByteArray();
+
+                ParseFile profilePic = new ParseFile("profile_pic.png", bitmapdata);
+
+                curUser.put(ParseConstants.KEY_PROFILE_PIC, profilePic);
+                curUser.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null) {
+                            viewPager.invalidate();
+                        }
+                    }
+                });
+
+            }
         }
     }
 
@@ -164,7 +194,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.logout) {
-            navigateToLogin();
+            ParseUser.getCurrentUser();
+            ParseUser.logOutInBackground(new LogOutCallback() {
+                @Override
+                public void done(ParseException e) {
+                    navigateToLogin();
+                }
+            });
             return true;
         }
 

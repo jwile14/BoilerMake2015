@@ -2,11 +2,7 @@ package jwile14.com.github.boilermake2015;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
@@ -18,10 +14,7 @@ import android.widget.EditText;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
-
-import java.io.ByteArrayOutputStream;
 
 
 public class EmailLoginActivity extends Activity {
@@ -73,19 +66,6 @@ public class EmailLoginActivity extends Activity {
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
-
-                                        if(parseUser.get(ParseConstants.KEY_PROFILE_PIC) == null) {
-                                            Drawable d = ContextCompat.getDrawable(EmailLoginActivity.this, R.drawable.generic_profile_pic);
-                                            Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
-                                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                                            byte[] bitmapdata = stream.toByteArray();
-
-                                            ParseFile profilePic = new ParseFile("profile_pic.png", bitmapdata);
-
-                                            parseUser.put(ParseConstants.KEY_PROFILE_PIC, profilePic);
-                                            parseUser.saveInBackground();
-                                        }
 
                                         Log.i(TAG, "Logged in user with first name: " + ParseUser.getCurrentUser().get(ParseConstants.KEY_FIRST_NAME));
                                     } else {

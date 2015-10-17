@@ -21,6 +21,7 @@
     <EditText
         android:id="@+id/firstNameField"
         android:layout_width="wrap_content"
+        android:textCursorDrawable="@null"
         android:layout_height="wrap_content"
         android:layout_below="@+id/registerTitle"
         android:layout_centerHorizontal="true"
@@ -32,6 +33,7 @@
     <EditText
         android:id="@+id/lastNameField"
         android:layout_width="wrap_content"
+        android:textCursorDrawable="@null"
         android:layout_height="wrap_content"
         android:layout_below="@+id/firstNameField"
         android:layout_centerHorizontal="true"
@@ -43,6 +45,7 @@
         android:id="@+id/emailField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textCursorDrawable="@null"
         android:layout_below="@+id/lastNameField"
         android:layout_centerHorizontal="true"
         android:ems="10"
@@ -52,6 +55,7 @@
     <EditText
         android:id="@+id/passwordField"
         android:layout_width="wrap_content"
+        android:textCursorDrawable="@null"
         android:layout_height="wrap_content"
         android:layout_below="@+id/emailField"
         android:layout_centerHorizontal="true"

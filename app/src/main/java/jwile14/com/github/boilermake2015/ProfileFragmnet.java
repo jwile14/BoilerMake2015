@@ -40,15 +40,19 @@ public class ProfileFragmnet extends Fragment {
         if (getArguments() != null) {
         }
 
-        ParseFile image = ParseUser.getCurrentUser().getParseFile(ParseConstants.KEY_PROFILE_PIC);
-        image.getDataInBackground(new GetDataCallback() {
-            @Override
-            public void done(byte[] data, ParseException e) {
-                ImageView imageView = (ImageView) getActivity().findViewById(R.id.profilePictureImageView);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                imageView.setImageBitmap(bitmap);
-            }
-        });
+        if(ParseUser.getCurrentUser().get(ParseConstants.KEY_PROFILE_PIC) == null) {
+            ParseFile image = ParseUser.getCurrentUser().getParseFile(ParseConstants.KEY_PROFILE_PIC);
+            image.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    ImageView imageView = (ImageView) getActivity().findViewById(R.id.profilePictureImageView);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    imageView.setImageBitmap(bitmap);
+                }
+            });
+            ParseUser.getCurrentUser().put(ParseConstants.KEY_PROFILE_PIC, image);
+            ParseUser.getCurrentUser().saveInBackground();
+        }
     }
 
     @Override

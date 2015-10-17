@@ -1,11 +1,7 @@
 package jwile14.com.github.boilermake2015;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
@@ -16,12 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
-
-import java.io.ByteArrayOutputStream;
 
 
 public class RegisterActivity extends ActionBarActivity {
@@ -77,44 +69,18 @@ public class RegisterActivity extends ActionBarActivity {
                             user.setUsername(email);
                             user.setPassword(password);
 
-                            Drawable d = ContextCompat.getDrawable(RegisterActivity.this, R.drawable.generic_profile_pic);
-                            Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                            byte[] bitmapdata = stream.toByteArray();
-
-                            ParseFile profilePic = new ParseFile("profile_pic.png", bitmapdata);
-
-
-                            user.put(ParseConstants.KEY_PROFILE_PIC, profilePic);
-
                             user.signUpInBackground(new SignUpCallback() {
                                 @Override
                                 public void done(ParseException e) {
                                     setProgressBarIndeterminate(false);
                                     if (e == null) {
-                                        // Success! Take the user to the app!
-                                        Drawable d = ContextCompat.getDrawable(RegisterActivity.this, R.drawable.generic_profile_pic);
-                                        Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                                        byte[] bitmapdata = stream.toByteArray();
+                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                    } else
 
-                                        ParseFile profilePic = new ParseFile("profile_pic.png", bitmapdata);
-
-
-                                        user.put(ParseConstants.KEY_PROFILE_PIC, profilePic);
-                                        user.saveInBackground(new SaveCallback() {
-                                            @Override
-                                            public void done(ParseException e) {
-                                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                startActivity(intent);
-                                            }
-                                        });
-
-                                    } else {
+                                    {
                                         //Checks to make sure user didn't switch apps and android is killing the app
                                         // or the user navigated away from the activity before callback returned
                                         if (!isFinishing()) {
@@ -124,7 +90,7 @@ public class RegisterActivity extends ActionBarActivity {
                                 }
                             });
                         }
-                            return true; // if you want to handle the touch event
+                        return true;
                 }
                 return false;
             }
