@@ -1,16 +1,24 @@
 package jwile14.com.github.boilermake2015;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -22,6 +30,8 @@ import java.util.ArrayList;
  * interface.
  */
 public class ListFragment extends Fragment implements AbsListView.OnItemClickListener {
+
+    public static final String TAG = ListFragment.class.getSimpleName().toString();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,8 +77,16 @@ public class ListFragment extends Fragment implements AbsListView.OnItemClickLis
         }
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, mListItems);
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(ParseConstants.KEY_CONVERSATIONS);
+        query.whereEqualTo(ParseConstants.KEY_CONVERSATION_MEMBERS, ParseUser.getCurrentUser().getObjectId());
+        query.orderByDescending(ParseConstants.KEY_CREATED_AT);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                Log.d(TAG, "Found " + objects.size() + " conversations!");
+                mAdapter = new ConversationAdapter(getActivity(), R.id.messageLayout, objects);
+            }
+        });
 
     }
 
@@ -80,9 +98,15 @@ public class ListFragment extends Fragment implements AbsListView.OnItemClickLis
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(view.getContext(), MessageActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Set OnItemClickListener so we can be notified on item clicks
-        mListView.setOnItemClickListener(this);
 
         mListView.setRecyclerListener(new AbsListView.RecyclerListener() {
             @Override
@@ -95,8 +119,7 @@ public class ListFragment extends Fragment implements AbsListView.OnItemClickLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != mListener) {
-        }
+
     }
 
 

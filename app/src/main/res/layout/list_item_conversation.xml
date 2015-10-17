@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/avatarImageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="first name"
+        android:id="@+id/firstnameLabel"
+        android:paddingLeft="5dp"
+        android:textColor="#ff2e5e86"
+        android:layout_toRightOf="@+id/avatarImageView"
+        android:layout_toEndOf="@+id/avatarImageView"/>
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_toRightOf="@+id/avatarImageView"
+        android:layout_toEndOf="@+id/avatarImageView"
+        android:layout_below="@+id/usernameLabel"
+        android:id="@+id/commentLayout"
+        android:layout_marginRight="50dp"
+        android:background="#EEEEEE">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comment goes here"
+            android:autoLink="web"
+            android:id="@+id/commentLabel"
+            android:paddingLeft="5dp"
+            android:textIsSelectable="true"
+            android:textColor="#ff9f9f9f"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
