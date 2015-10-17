@@ -1,0 +1,11 @@
+package jwile14.com.github.boilermake2015;
+
+/**
+ * Created by wilejd on 10/17/2015.
+ */
+public class ParseConstants {
+    public static final String KEY_FIRST_NAME = "firstName";
+    public static final String KEY_LAST_NAME = "lastName";
+    public static final String KEY_USERNAME = "username";
+
+}

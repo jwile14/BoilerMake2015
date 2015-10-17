@@ -6,38 +6,47 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context="jwile14.com.github.boilermake2015.LoginActivity">
+                tools:context="jwile14.com.github.boilermake2015.EmailLoginActivity">
 
     <TextView
-        android:id="@+id/loginText"
+        android:id="@+id/emailLoginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="163dp"
-        android:text="This is the LoginActivity"
+        android:layout_marginTop="144dp"
+        android:text="Email Login"
         android:textSize="24sp"/>
+
+    <EditText
+        android:id="@+id/emailField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/emailLoginTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="51dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"/>
+
+    <EditText
+        android:id="@+id/passwordField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/emailField"
+        android:layout_alignStart="@+id/emailField"
+        android:layout_below="@+id/emailField"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"/>
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/loginText"
-        android:padding="10dp"
+        android:layout_below="@+id/passwordField"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp"
         android:background="#e0dede"
-        android:text="Login"/>
-
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/loginButton"
-        android:background="#e0dede"
-        android:text="Register"/>
+        android:text="LOGIN"/>
 
 </RelativeLayout>

@@ -9,4 +9,6 @@
     <string name="title_activity_login">LoginActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_email_login">EmailLoginActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
 </resources>

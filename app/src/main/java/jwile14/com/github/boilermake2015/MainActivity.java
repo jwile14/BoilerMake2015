@@ -1,5 +1,6 @@
 package jwile14.com.github.boilermake2015;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,10 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.parse.ParseUser;
+
 import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String TAG = MainActivity.class.getSimpleName();
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -39,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //ParseUser.logOutInBackground();
+
+        if (ParseUser.getCurrentUser() == null) {
+            navigateToLogin();
+        } else {
+            Log.i(TAG, "Logged in as: " + ParseUser.getCurrentUser().getUsername());
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
@@ -50,14 +64,29 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setTabTextColors(Color.parseColor("#800000"), Color.parseColor("#7f2c2c"));
         tabLayout.setupWithViewPager(viewPager);
 
+        // Checks if you're logged in
+        if (ParseUser.getCurrentUser() == null) {
+            navigateToLogin();
+        } else {
+            ParseUser curUser = ParseUser.getCurrentUser();
+        }
+    }
+
+    private void navigateToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+
+        // Prevents the user from hitting the back button while sent to the login screen
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         ArrayList<String> listExample = new ArrayList<>();
-        for(int a = 0; a < 100; a++) {
-            listExample.add("List Item " + (a+1));
+        for (int a = 0; a < 100; a++) {
+            listExample.add("List Item " + (a + 1));
         }
         listExample.add("");
 
@@ -73,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(0);
 
-        for(int a = 0; a < viewPager.getChildCount(); a++) {
+        for (int a = 0; a < viewPager.getChildCount(); a++) {
             View nextChild = viewPager.getChildAt(a);
-            if(nextChild instanceof TextView) {
+            if (nextChild instanceof TextView) {
                 TextView curChildTextView = (TextView) nextChild;
                 curChildTextView.setTextColor(Color.parseColor("#800000"));
             }
