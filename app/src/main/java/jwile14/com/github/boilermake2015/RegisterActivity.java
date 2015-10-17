@@ -18,6 +18,7 @@ import android.widget.EditText;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -84,6 +85,7 @@ public class RegisterActivity extends ActionBarActivity {
 
                             ParseFile profilePic = new ParseFile("profile_pic.png", bitmapdata);
 
+
                             user.put(ParseConstants.KEY_PROFILE_PIC, profilePic);
 
                             user.signUpInBackground(new SignUpCallback() {
@@ -92,10 +94,26 @@ public class RegisterActivity extends ActionBarActivity {
                                     setProgressBarIndeterminate(false);
                                     if (e == null) {
                                         // Success! Take the user to the app!
-                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
+                                        Drawable d = ContextCompat.getDrawable(RegisterActivity.this, R.drawable.generic_profile_pic);
+                                        Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
+                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                                        byte[] bitmapdata = stream.toByteArray();
+
+                                        ParseFile profilePic = new ParseFile("profile_pic.png", bitmapdata);
+
+
+                                        user.put(ParseConstants.KEY_PROFILE_PIC, profilePic);
+                                        user.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(intent);
+                                            }
+                                        });
+
                                     } else {
                                         //Checks to make sure user didn't switch apps and android is killing the app
                                         // or the user navigated away from the activity before callback returned
