@@ -12,16 +12,12 @@ import android.widget.TextView;
 /**
  * A fragment with a Google +1 button.
  * Activities that contain this fragment must implement the
- * {@link FibonacciFragment.OnFragmentInteractionListener} interface
+ * {@link ProfileFragmnet.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FibonacciFragment#newInstance} factory method to
+ * Use the {@link ProfileFragmnet#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FibonacciFragment extends Fragment {
-
-    private Button mButton;
-    private TextView mTextView;
-    private int old1 = 0, old2 = 0;
+public class ProfileFragmnet extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
@@ -29,17 +25,17 @@ public class FibonacciFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment FibonacciFragment.
+     * @return A new instance of fragment ProfileFragmnet.
      */
     // TODO: Rename and change types and number of parameters
-    public static FibonacciFragment newInstance(String param1, String param2) {
-        FibonacciFragment fragment = new FibonacciFragment();
+    public static ProfileFragmnet newInstance(String param1, String param2) {
+        ProfileFragmnet fragment = new ProfileFragmnet();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public FibonacciFragment() {
+    public ProfileFragmnet() {
         // Required empty public constructor
     }
 
@@ -54,7 +50,7 @@ public class FibonacciFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_fibonacci, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         return view;
     }

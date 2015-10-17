@@ -1,7 +1,6 @@
 package jwile14.com.github.boilermake2015;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
@@ -43,11 +42,9 @@ public class RegisterActivity extends ActionBarActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         // PRESSED
-                        v.setBackgroundColor(Color.parseColor("#e07474"));
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
                         // RELEASED
-                        v.setBackgroundColor(Color.parseColor("#e0dede"));
 
                         String firstName = mFirstNameField.getText().toString().trim();
                         String lastName = mLastNameField.getText().toString().trim();

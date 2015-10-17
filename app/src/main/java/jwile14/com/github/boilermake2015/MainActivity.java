@@ -25,7 +25,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -61,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setupViewPager(viewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.setTabTextColors(Color.parseColor("#800000"), Color.parseColor("#7f2c2c"));
+        tabLayout.setTabTextColors(Color.parseColor("#FFFFFF"), Color.parseColor("#EEEEEE"));
+        tabLayout.setBackgroundColor(Color.parseColor("#242424"));
         tabLayout.setupWithViewPager(viewPager);
 
         buildGoogleApiClient();
@@ -118,19 +119,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         ArrayList<String> listExample = new ArrayList<>();
-        for (int a = 0; a < 100; a++) {
-            listExample.add("List Item " + (a + 1));
+        for (int a = 0; a < 15; a++) {
+            listExample.add("Message " + (a + 1));
         }
         listExample.add("");
 
-        adapter.addFrag(new PlaceholderFragment(), "Basic Tab");
+        adapter.addFrag(new PlaceholderFragment(), "Books");
         ListFragment exampleListFragment = new ListFragment();
         Bundle listBundle = new Bundle();
         listBundle.putStringArrayList("list", listExample);
         exampleListFragment.setArguments(listBundle);
-        adapter.addFrag(exampleListFragment, "List Tab");
+        adapter.addFrag(exampleListFragment, "Messages");
 
-        adapter.addFrag(new FibonacciFragment(), "Button Tab");
+        adapter.addFrag(new ProfileFragmnet(), "Profile");
+
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(0);

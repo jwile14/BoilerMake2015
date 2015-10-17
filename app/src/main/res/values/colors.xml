@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bio_biomed">#f44336</color>
+    <color name="cheme">#673AB7</color>
+    <color name="chem_biochem">#9C27B0</color>
+    <color name="civil">#2196F3</color>
+    <color name="csse">#3F51B5</color>
+    <color name="ee_cpe">#4CAF50</color>
+    <color name="eng_mng">#CDDC39</color>
+    <color name="hss">#E91E63</color>
+    <color name="math">#FF5722</color>
+    <color name="mech">#212121</color>
+    <color name="phys">#A1887F</color>
+</resources>

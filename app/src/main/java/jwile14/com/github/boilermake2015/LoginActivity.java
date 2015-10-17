@@ -2,7 +2,6 @@ package jwile14.com.github.boilermake2015;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,11 +24,9 @@ public class LoginActivity extends Activity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         // PRESSED
-                        v.setBackgroundColor(Color.parseColor("#e07474"));
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
                         // RELEASED
-                        v.setBackgroundColor(Color.parseColor("#e0dede"));
                         Intent intent = new Intent(v.getContext(), EmailLoginActivity.class);
 
                         startActivity(intent);
@@ -47,11 +44,9 @@ public class LoginActivity extends Activity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         // PRESSED
-                        v.setBackgroundColor(Color.parseColor("#e07474"));
                         return true; // if you want to handle the touch event
                     case MotionEvent.ACTION_UP:
                         // RELEASED
-                        v.setBackgroundColor(Color.parseColor("#e0dede"));
                         Intent intent = new Intent(v.getContext(), RegisterActivity.class);
 
                         startActivity(intent);
