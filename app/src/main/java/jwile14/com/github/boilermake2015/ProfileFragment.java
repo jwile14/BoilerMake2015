@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -36,6 +37,8 @@ public class ProfileFragment extends Fragment {
     private final int REQUEST_CAMERA = 0;
     private final int SELECT_FILE = 1;
     private ImageView mImageView;
+
+    private LinearLayout mRatingLayout;
 
     /**
      * Use this factory method to create a new instance of
@@ -75,6 +78,68 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        mRatingLayout = (LinearLayout) getActivity().findViewById(R.id.ratingLayout);
+        String rating = "" + ParseUser.getCurrentUser().getDouble(ParseConstants.KEY_RATING);
+        ImageView star1 = (ImageView) getActivity().findViewById(R.id.star1);
+        ImageView star2 = (ImageView) getActivity().findViewById(R.id.star2);
+        ImageView star3 = (ImageView) getActivity().findViewById(R.id.star3);
+        ImageView star4 = (ImageView) getActivity().findViewById(R.id.star4);
+        ImageView star5 = (ImageView) getActivity().findViewById(R.id.star5);
+        switch (rating) {
+            case "0.0":
+                break;
+            case "0.5":
+                star1.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.half_star));
+                break;
+            case "1.0":
+                star1.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                break;
+            case "1.5":
+                star1.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star2.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.half_star));
+                break;
+            case "2.0":
+                star1.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star2.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                break;
+            case "2.5":
+                star1.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star2.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star3.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.half_star));
+                break;
+            case "3.0":
+                star1.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star2.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star3.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                break;
+            case "3.5":
+                star1.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star2.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star3.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star4.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.half_star));
+                break;
+            case "4.0":
+                star1.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star2.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star3.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star4.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                break;
+            case "4.5":
+                star1.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star2.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star3.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star4.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star5.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.half_star));
+                break;
+            case "5.0":
+                star1.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star2.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star3.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star4.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                star5.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.full_star));
+                break;
+        }
 
         ParseFile image = ParseUser.getCurrentUser().getParseFile(ParseConstants.KEY_PROFILE_PIC);
         image.getDataInBackground(new GetDataCallback() {

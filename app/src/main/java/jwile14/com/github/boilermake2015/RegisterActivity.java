@@ -65,6 +65,7 @@ public class RegisterActivity extends ActionBarActivity {
                             ParseUser user = new ParseUser();
                             user.put(ParseConstants.KEY_FIRST_NAME, firstName);
                             user.put(ParseConstants.KEY_LAST_NAME, lastName);
+                            user.put(ParseConstants.KEY_RATING, 2.5);
                             user.setEmail(email);
                             user.setUsername(email);
                             user.setPassword(password);

@@ -20,6 +20,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -27,9 +28,10 @@ import java.util.List;
 public class BookActivity extends AppCompatActivity {
 
     private ParseObject[] books;
+    private boolean[] liked;
 
-    private ImageView mBookPicture, mSellerPicture;
-    private TextView mBookTitle, mSellerName, mSellerRating;
+    private ImageView mBookPicture, mSellerPicture, mStar1, mStar2, mStar3, mStar4, mStar5;
+    private TextView mBookTitle, mSellerName, mSellerRating, mEmptyText;
     private int mIndex = 0;
 
     @Override
@@ -47,9 +49,14 @@ public class BookActivity extends AppCompatActivity {
 
         mBookTitle = (TextView) findViewById(R.id.bookTitle);
         mSellerName = (TextView) findViewById(R.id.userNameField);
-        mSellerRating = (TextView) findViewById(R.id.ratingTextField);
         mBookPicture = (ImageView) findViewById(R.id.bookImageView);
         mSellerPicture = (ImageView) findViewById(R.id.sellerPic);
+        mEmptyText = (TextView) findViewById(R.id.emptyTextView);
+        mStar1 = (ImageView) findViewById(R.id.star1);
+        mStar2 = (ImageView) findViewById(R.id.star2);
+        mStar3 = (ImageView) findViewById(R.id.star3);
+        mStar4 = (ImageView) findViewById(R.id.star4);
+        mStar5 = (ImageView) findViewById(R.id.star5);
 
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(ParseConstants.KEY_BOOK);
         query.whereNotEqualTo(ParseConstants.KEY_BOOK_SELLER, ParseUser.getCurrentUser());
@@ -61,9 +68,11 @@ public class BookActivity extends AppCompatActivity {
                     Toast.makeText(BookActivity.this, "No books available :/", Toast.LENGTH_SHORT).show();
                 } else {
                     books = new ParseObject[objects.size()];
+                    liked = new boolean[objects.size()];
                     int i = 0;
                     for (ParseObject book : objects) {
                         books[i] = book;
+                        liked[i] = false;
                         i++;
                     }
 
@@ -84,7 +93,6 @@ public class BookActivity extends AppCompatActivity {
 
     private void getBookAt(int i) {
         ParseUser seller = ParseUser.createWithoutData(ParseUser.class, ((ParseUser) books[i].get(ParseConstants.KEY_BOOK_SELLER)).getObjectId());
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(ParseConstants.KEY_USER);
         seller.fetchInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
@@ -93,7 +101,86 @@ public class BookActivity extends AppCompatActivity {
                 mBookTitle.setText(books[mIndex].getString(ParseConstants.KEY_BOOK_TITLE));
                 mSellerName.setText(seller.getString(ParseConstants.KEY_FIRST_NAME));
 
-                mSellerRating.setText(seller.get(ParseConstants.KEY_RATING).toString());
+                String rating = "" + seller.getDouble(ParseConstants.KEY_RATING);
+                switch (rating) {
+                    case "0.0":
+                        mStar1.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar2.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar3.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar4.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar5.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        break;
+                    case "0.5":
+                        mStar1.setImageDrawable(getResources().getDrawable(R.drawable.half_star));
+                        mStar2.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar3.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar4.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar5.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        break;
+                    case "1.0":
+                        mStar1.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar2.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar3.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar4.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar5.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        break;
+                    case "1.5":
+                        mStar1.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar2.setImageDrawable(getResources().getDrawable(R.drawable.half_star));
+                        mStar3.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar4.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar5.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        break;
+                    case "2.0":
+                        mStar1.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar2.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar3.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar4.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar5.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        break;
+                    case "2.5":
+                        mStar1.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar2.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar3.setImageDrawable(getResources().getDrawable(R.drawable.half_star));
+                        mStar4.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar5.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        break;
+                    case "3.0":
+                        mStar1.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar2.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar3.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar4.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        mStar5.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        break;
+                    case "3.5":
+                        mStar1.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar2.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar3.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar4.setImageDrawable(getResources().getDrawable(R.drawable.half_star));
+                        mStar5.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        break;
+                    case "4.0":
+                        mStar1.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar2.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar3.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar4.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar5.setImageDrawable(getResources().getDrawable(R.drawable.empty_star));
+                        break;
+                    case "4.5":
+                        mStar1.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar2.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar3.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar4.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar5.setImageDrawable(getResources().getDrawable(R.drawable.half_star));
+                        break;
+                    case "5.0":
+                        mStar1.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar2.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar3.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar4.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        mStar5.setImageDrawable(getResources().getDrawable(R.drawable.full_star));
+                        break;
+                }
 
                 ParseFile bookImage = (ParseFile) books[mIndex].get(ParseConstants.KEY_BOOK_PICTURE);
                 bookImage.getDataInBackground(new GetDataCallback() {
@@ -126,14 +213,81 @@ public class BookActivity extends AppCompatActivity {
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mIndex += 1;
-                if (mIndex >= books.length) {
-                    mIndex = 0;
+                if (!allLiked()) {
+                    do {
+                        mIndex += 1;
+                        if (mIndex >= books.length) {
+                            mIndex = 0;
+                        }
+                    } while (liked[mIndex]);
+                    getBookAt(mIndex);
                 }
-                getBookAt(mIndex);
             }
         });
 
+        Button likeButton = (Button) findViewById(R.id.likeButton);
+        likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!liked[mIndex]) {
+                    liked[mIndex] = true;
+                    if (allLiked()) {
+                        mBookPicture.setVisibility(View.INVISIBLE);
+                        mSellerPicture.setVisibility(View.INVISIBLE);
+                        mSellerRating.setVisibility(View.INVISIBLE);
+                        mSellerName.setVisibility(View.INVISIBLE);
+                        mBookTitle.setVisibility(View.INVISIBLE);
+                        mEmptyText.setVisibility(View.VISIBLE);
+                    } else {
+                        startConverstation();
+
+                        while (liked[mIndex]) {
+                            mIndex += 1;
+                            if (mIndex >= books.length) {
+                                mIndex = 0;
+                            }
+                        }
+                        getBookAt(mIndex);
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void startConverstation() {
+        ParseUser seller = ParseUser.createWithoutData(ParseUser.class, ((ParseUser) books[mIndex].get(ParseConstants.KEY_BOOK_SELLER)).getObjectId());
+        seller.fetchInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                ParseUser seller = (ParseUser) object;
+
+                ParseObject conversation = new ParseObject(ParseConstants.KEY_CONVERSATION);
+                conversation.put(ParseConstants.KEY_CONVERSATION_MEMBER1, seller);
+                conversation.put(ParseConstants.KEY_CONVERSATION_MEMBER2, ParseUser.getCurrentUser());
+                conversation.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Toast.makeText(BookActivity.this, "Conversation created!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    private boolean allLiked() {
+        boolean result = true;
+        if (liked != null && liked.length > 0) {
+            for (boolean like : liked) {
+                result = result && like;
+                if (!result) {
+                    return result;
+                }
+            }
+            return result;
+        } else {
+            return result;
+        }
     }
 
 

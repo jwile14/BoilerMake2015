@@ -19,6 +19,16 @@
         android:text="X"
         android:textSize="18sp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/emptyTextView"
+        android:textSize="30sp"
+        android:text="No books found :/"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"/>
+
     <LinearLayout
         android:id="@+id/bookLayout"
         android:layout_width="wrap_content"
@@ -58,12 +68,51 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/generic_profile_pic"/>
 
-            <TextView
-                android:id="@+id/ratingTextField"
+            <LinearLayout
+                android:id="@+id/ratingLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="5 out of 5 stars"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/star1"
+                    android:layout_width="22dp"
+                    android:layout_height="22sp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/empty_star"/>
+
+                <ImageView
+                    android:id="@+id/star2"
+                    android:layout_width="22dp"
+                    android:layout_height="22sp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/empty_star"/>
+
+                <ImageView
+                    android:id="@+id/star3"
+                    android:layout_width="22dp"
+                    android:layout_height="22sp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/empty_star"/>
+
+                <ImageView
+                    android:id="@+id/star4"
+                    android:layout_width="22dp"
+                    android:layout_height="22sp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/empty_star"/>
+
+                <ImageView
+                    android:id="@+id/star5"
+                    android:layout_width="22dp"
+                    android:layout_height="22sp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/empty_star"/>
+
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

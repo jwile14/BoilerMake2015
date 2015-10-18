@@ -39,11 +39,11 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
         if (message != null) {
             ImageView avatarImageView = (ImageView) v.findViewById(R.id.avatarImageView);
             TextView messageContentLabel = (TextView) v.findViewById(R.id.commentLabel);
-            TextView usernameLabel = (TextView) v.findViewById(R.id.usernameLabel);
+            TextView usernameLabel = (TextView) v.findViewById(R.id.firstnameLabel);
 
             if (message.get(ParseConstants.KEY_MESSAGE_SENDER) != null) {
                 final ParseUser user = (ParseUser) message.get(ParseConstants.KEY_MESSAGE_SENDER);
-                usernameLabel.setText(user.getUsername());
+                usernameLabel.setText("Conversation with " + user.getString(ParseConstants.KEY_FIRST_NAME));
                 ParseFile imageViewFile = user.getParseFile(ParseConstants.KEY_PROFILE_PIC);
                 if (user.get(ParseConstants.KEY_PROFILE_PIC) != null) {
                     // We have an avatar thumbnail file!

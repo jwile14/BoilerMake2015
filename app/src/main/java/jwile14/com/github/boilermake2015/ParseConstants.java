@@ -16,11 +16,12 @@ public class ParseConstants {
 
     public static final String KEY_CREATED_AT = "createdAt";
 
-    public static final String KEY_CONVERSATIONS = "conversations";
-    public static final String KEY_CONVERSATION_MEMBERS = "members";
+    public static final String KEY_CONVERSATION = "Conversation";
+    public static final String KEY_CONVERSATION_MEMBER1 = "member1";
+    public static final String KEY_CONVERSATION_MEMBER2 = "member2";
 
-    public static final String KEY_MESSAGE = "message";
-    public static final String KEY_MESSAGE_CONVERSATION = "conversation";
+    public static final String KEY_MESSAGE = "Message";
+    public static final String KEY_MESSAGE_CONVERSATION = "Conversation";
     public static final String KEY_MESSAGE_SENDER = "sender";
     public static final String KEY_MESSAGE_TEXT = "message";
 

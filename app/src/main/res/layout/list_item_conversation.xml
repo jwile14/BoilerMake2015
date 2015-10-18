@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/avatarImageView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -33,7 +32,7 @@
         android:layout_height="fill_parent"
         android:layout_toRightOf="@+id/avatarImageView"
         android:layout_toEndOf="@+id/avatarImageView"
-        android:layout_below="@+id/usernameLabel"
+        android:layout_below="@+id/firstnameLabel"
         android:id="@+id/commentLayout"
         android:layout_marginRight="50dp"
         android:background="#EEEEEE">
@@ -53,4 +52,4 @@
 
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
