@@ -234,7 +234,11 @@ public class BookActivity extends AppCompatActivity {
                     if (allLiked()) {
                         mBookPicture.setVisibility(View.INVISIBLE);
                         mSellerPicture.setVisibility(View.INVISIBLE);
-                        mSellerRating.setVisibility(View.INVISIBLE);
+                        mStar1.setVisibility(View.INVISIBLE);
+                        mStar2.setVisibility(View.INVISIBLE);
+                        mStar3.setVisibility(View.INVISIBLE);
+                        mStar4.setVisibility(View.INVISIBLE);
+                        mStar5.setVisibility(View.INVISIBLE);
                         mSellerName.setVisibility(View.INVISIBLE);
                         mBookTitle.setVisibility(View.INVISIBLE);
                         mEmptyText.setVisibility(View.VISIBLE);
