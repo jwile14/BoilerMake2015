@@ -213,4 +213,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Intent intent = new Intent(this, BookActivity.class);
         startActivity(intent);
     }
+
+    public void sellbooks() {
+        Intent intent = new Intent(this, SellActivity.class);
+        startActivity(intent);
+    }
 }

@@ -14,6 +14,21 @@ import java.lang.reflect.Method;
  * Created by wilejd on 10/17/2015.
  */
 public class ExifUtils {
+
+    public static double distFrom(double lat1, double lng1, double lat2, double lng2) {
+        double earthRadius = 3958.75; // miles (or 6371.0 kilometers)
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLng = Math.toRadians(lng2-lng1);
+        double sindLat = Math.sin(dLat / 2);
+        double sindLng = Math.sin(dLng / 2);
+        double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
+                * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double dist = earthRadius * c;
+
+        return dist;
+    }
+
     public static Bitmap rotateBitmap(String src, Bitmap bitmap) {
         try {
             int orientation = getExifOrientation(src);
@@ -81,16 +96,16 @@ public class ExifUtils {
                 Class<?> exifClass = Class
                         .forName("android.media.ExifInterface");
                 Constructor<?> exifConstructor = exifClass
-                        .getConstructor(new Class[] { String.class });
+                        .getConstructor(new Class[]{String.class});
                 Object exifInstance = exifConstructor
-                        .newInstance(new Object[] { src });
+                        .newInstance(new Object[]{src});
                 Method getAttributeInt = exifClass.getMethod("getAttributeInt",
-                        new Class[] { String.class, int.class });
+                        new Class[]{String.class, int.class});
                 Field tagOrientationField = exifClass
                         .getField("TAG_ORIENTATION");
                 String tagOrientation = (String) tagOrientationField.get(null);
                 orientation = (Integer) getAttributeInt.invoke(exifInstance,
-                        new Object[] { tagOrientation, 1 });
+                        new Object[]{tagOrientation, 1});
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

@@ -90,8 +90,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
                 });
             }
 
-            if (message.get(ParseConstants.KEY_MESSAGE) != null) {
-                messageContentLabel.setText(message.get(ParseConstants.KEY_MESSAGE).toString());
+            if (message.get(ParseConstants.KEY_MESSAGE_TEXT) != null) {
+                messageContentLabel.setText(message.get(ParseConstants.KEY_MESSAGE_TEXT).toString());
             }
 
         }

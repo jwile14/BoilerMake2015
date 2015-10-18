@@ -15,29 +15,33 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="163dp"
-        android:text="This is the LoginActivity"
-        android:textSize="24sp"/>
+        android:text="Bookalicious"
+        android:textSize="30sp"/>
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginText"
-        android:padding="10dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:layout_marginTop="54dp"
         android:background="#e0dede"
+        android:padding="10dp"
         android:text="Login"/>
 
     <Button
         android:id="@+id/registerButton"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/loginButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
         android:background="#e0dede"
+        android:padding="10dp"
         android:text="Register"/>
 
 </RelativeLayout>

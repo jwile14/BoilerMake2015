@@ -11,6 +11,9 @@ import android.widget.Button;
  * Created by wilejd on 10/17/2015.
  */
 public class MainFragment extends Fragment {
+
+    public static final String TAG = MainFragment.class.getSimpleName();
+
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -41,12 +44,21 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Button button = (Button) getView().findViewById(R.id.findButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button findButton = (Button) getView().findViewById(R.id.findButton);
+        findButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Create new fragment and transaction
                 ((MainActivity) getActivity()).findbooks();
+            }
+        });
+
+        Button sellButton = (Button) getView().findViewById(R.id.sellButton);
+        sellButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create new fragment and transaction
+                ((MainActivity) getActivity()).sellbooks();
             }
         });
     }

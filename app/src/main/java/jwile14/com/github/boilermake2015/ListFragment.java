@@ -76,24 +76,28 @@ public class ListFragment extends Fragment implements AbsListView.OnItemClickLis
             mListItems = getArguments().getStringArrayList(LIST_KEY);
         }
 
-        // TODO: Change Adapter to display your content
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(ParseConstants.KEY_CONVERSATIONS);
-        query.whereEqualTo(ParseConstants.KEY_CONVERSATION_MEMBERS, ParseUser.getCurrentUser().getObjectId());
-        query.orderByDescending(ParseConstants.KEY_CREATED_AT);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                Log.d(TAG, "Found " + objects.size() + " conversations!");
-                mAdapter = new ConversationAdapter(getActivity(), R.id.messageLayout, objects);
-            }
-        });
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
+
+        // TODO: Change Adapter to display your content
+        if(ParseUser.getCurrentUser() != null) {
+            ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(ParseConstants.KEY_CONVERSATIONS);
+            query.whereEqualTo(ParseConstants.KEY_CONVERSATION_MEMBERS, ParseUser.getCurrentUser().getObjectId());
+            query.orderByDescending(ParseConstants.KEY_CREATED_AT);
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> objects, ParseException e) {
+                    if (objects != null) {
+                        Log.d(TAG, "Found " + objects.size() + " conversations!");
+                        mAdapter = new ConversationAdapter(getActivity(), R.id.messageLayout, objects);
+                    }
+                }
+            });
+        }
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
